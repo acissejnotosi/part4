@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const config = require("./utils/config");
 const middleware = require("./utils/middleware");
-const Blog = require('./models/blog')
+const blogRouter = require('./controllers/blogs')
 
 mongoose
   .connect(config.MONGODB_URI, {
@@ -25,20 +25,6 @@ app.use(
     ":method :url :status :res[content-length] - :response-time ms :body"
   )
 );
-
-app.get("/api/blogs", (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
-});
-
-app.post("/api/blogs", (request, response) => {
-  console.log(request.body);
-  const blog = new Blog(request.body);
-
-  blog.save().then((result) => {
-    response.status(201).json(result);
-  });
-});
+app.use("/api/blogs", blogRouter)
 
 module.exports = app;
