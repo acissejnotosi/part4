@@ -1,47 +1,9 @@
-const http = require("http");
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const mongoose = require("mongoose");
-const config = require("./utils/config");
-const middleware = require("./utils/middleware");
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-});
+const app = require('./app')
+const http = require('http')
+const config = require('./utils/config')
 
-const Blog = mongoose.model("Blog", blogSchema);
+const server = http.createServer(app)
 
-mongoose.connect(config.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-app.use(cors());
-app.use(express.json());
-app.use(
-  middleware.morganLogger(
-    ":method :url :status :res[content-length] - :response-time ms :body"
-  )
-);
-
-app.get("/api/blogs", (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
+server.listen(config.PORT, () => {
+    console.log(`Server running on port ${config.PORT}`);
   });
-});
-
-app.post("/api/blogs", (request, response) => {
-  console.log(request.body);
-  const blog = new Blog(request.body);
-
-  blog.save().then((result) => {
-    response.status(201).json(result);
-  });
-});
-
-app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`);
-});
