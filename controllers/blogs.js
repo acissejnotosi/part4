@@ -8,7 +8,6 @@ blogRouter.get("/", (request, response) => {
 });
 
 blogRouter.post("/", (request, response) => {
-  console.log(request.body);
   const blog = new Blog(request.body);
 
   blog.save().then((result) => {
