@@ -26,13 +26,8 @@ const favoriteBlog = (blogs) => {
   );
 };
 
-const mostBlogs = (blogs) => {
-  let totalBlogsPerAuthor = [];
-
-  if (blogs.length === 0) return [];
-
-  let blogsAux = blogs.sort((a
-    , b) => {
+const sortBlogs = (blogs) => {
+  blogs = blogs.sort((a, b) => {
     if (a.author < b.author) {
       return -1;
     }
@@ -41,6 +36,13 @@ const mostBlogs = (blogs) => {
     }
     return 0;
   });
+  return blogs;
+};
+
+const mostBlogs = (blogs) => {
+  let totalBlogsPerAuthor = [];
+  if (blogs.length === 0) return [];
+  let blogsAux = sortBlogs(blogs);
   while (blogsAux.length > 0) {
     let author = blogsAux[0].author;
     let length = blogsAux.length;
@@ -54,9 +56,28 @@ const mostBlogs = (blogs) => {
   return totalBlogsPerAuthorDescendingOrder[0];
 };
 
+const mostLikes = (blogs) => {
+  let totalLikesPerAuthor = [];
+  if (blogs.length === 0) return [];
+  let blogsAux = sortBlogs(blogs);
+  while (blogsAux.length > 0) {
+    let author = blogsAux[0].author;
+    let totalLikes = blogsAux.reduce((acc, element) => acc + element.likes, 0);
+    blogsAux = _.dropWhile(blogsAux, ["author", blogsAux[0].author]);
+    let likesNum =
+      totalLikes - blogsAux.reduce((acc, element) => acc + element.likes, 0);
+    totalLikesPerAuthor.push({ author: author, likes: likesNum });
+  }
+  let totalLikesPerAuthorDescendingOrder = totalLikesPerAuthor.sort((a, b) => {
+    return b.likes - a.likes;
+  });
+  return totalLikesPerAuthorDescendingOrder[0];
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };
