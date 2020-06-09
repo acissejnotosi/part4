@@ -28,6 +28,14 @@ test("all blogs are returned", async () => {
   expect(response.body.length).toBe(2);
 });
 
+test("Verifies that the unique identifier property of the blog posts is named id", async () => {
+  const blog = new Blog({ content: 'willremovethissoon' })
+  await blog.save()
+  await blog.remove()
+  console.log(blog.id);
+  expect(blog.id).toBeDefined();
+})
+
 afterAll(() => {
   mongoose.connection.close();
 });
