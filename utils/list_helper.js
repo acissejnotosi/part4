@@ -41,7 +41,7 @@ const sortBlogs = (blogs) => {
 
 const mostBlogs = (blogs) => {
   let totalBlogsPerAuthor = [];
-  if (blogs.length === 0) return [];
+  if (blogs.length <= 0) return [];
   let blogsAux = sortBlogs(blogs);
   while (blogsAux.length > 0) {
     let author = blogsAux[0].author;
@@ -58,7 +58,7 @@ const mostBlogs = (blogs) => {
 
 const mostLikes = (blogs) => {
   let totalLikesPerAuthor = [];
-  if (blogs.length === 0) return [];
+  if (blogs.length <= 0) return [];
   let blogsAux = sortBlogs(blogs);
   while (blogsAux.length > 0) {
     let author = blogsAux[0].author;

@@ -22,8 +22,7 @@
   },
   "homepage": "https://github.com/acissejnotosi/part4#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
+    "cors": "^2.8.5",  
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
@@ -33,10 +32,10 @@
   "devDependencies": {
     "jest": "^26.0.1",
     "nodemon": "^2.0.4",
+    "cross-env": "^7.0.2",
     "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node"
   }
-  
 }
