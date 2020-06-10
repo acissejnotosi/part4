@@ -4,27 +4,16 @@ const app = require("../app");
 const Blog = require("../models/blog");
 const api = supertest(app);
 const test_helper = require("./test_helper");
+const logger = require("../utils/logger");
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-
-  let blogObject = new Blog(test_helper.blogs[0]);
-  await blogObject.save();
-
-  blogObject = new Blog(test_helper.blogs[1]);
-  await blogObject.save();
-
-  blogObject = new Blog(test_helper.blogs[2]);
-  await blogObject.save();
-
-  blogObject = new Blog(test_helper.blogs[3]);
-  await blogObject.save();
-
-  blogObject = new Blog(test_helper.blogs[4]);
-  await blogObject.save();
-
-  blogObject = new Blog(test_helper.blogs[5]);
-  await blogObject.save();
+  logger.info("cleared");
+  test_helper.blogs.forEach(async (blog) => {
+    let blogObject = new Blog(blog);
+    await blogObject.save();
+  });
+  logger.info("done");
 });
 
 test("blogs are returned as json", async () => {
@@ -36,8 +25,7 @@ test("blogs are returned as json", async () => {
 
 test("all blogs are returned", async () => {
   const response = await api.get("/api/blogs");
-
-  expect(response.body.length).toBe(test_helper.blogs.length);
+  expect(test_helper.blogs.length).toBe(response.body.length);
 });
 
 test("Verifies that the unique identifier property of the blog posts is named id", async () => {
@@ -49,7 +37,6 @@ test("Verifies that the unique identifier property of the blog posts is named id
   });
   await newBlog.save();
   await newBlog.remove();
-  console.log(newBlog.id);
   expect(newBlog.id).toBeDefined();
 });
 
@@ -104,7 +91,7 @@ test("Blog without likes are added with 0 likes by default", async () => {
 test("Title and url are missing from request, it should return 400 Bad Request", async () => {
   const newBlog = new Blog({
     author: "test",
-    likes: 2
+    likes: 2,
   });
   await api.post("/api/blogs").send(newBlog).expect(400);
 });
