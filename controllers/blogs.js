@@ -9,7 +9,9 @@ blogRouter.get("/", (request, response) => {
 
 blogRouter.post("/", (request, response) => {
   const blog = new Blog(request.body);
-
+  if (typeof blog.title === "undefined" || typeof blog.url === "undefined") {
+    response.status(400).json(result);
+  }
   blog.save().then((result) => {
     response.status(201).json(result);
   });
