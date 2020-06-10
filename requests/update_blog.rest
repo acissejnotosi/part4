@@ -1,0 +1,10 @@
+PUT http://localhost:3001/api/blogs/5a422ba71b54a676234d17fb
+Content-Type: application/json
+
+{
+    "title":"TDD harms architecture atualizado",
+    "author":"Robert C. Martin atualizado",
+    "url":"http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture... atualizado",
+    "likes":2
+}
+
