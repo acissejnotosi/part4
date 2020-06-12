@@ -4,15 +4,16 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const config = require("./utils/config");
 const middleware = require("./utils/middleware");
-const blogRouter = require('./controllers/blogs')
+const blogRouter = require("./controllers/blogs");
 const logger = require("./utils/logger");
-require('express-async-errors')
+const usersRouter = require("./controllers/users");
+require("express-async-errors");
 
 mongoose
   .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .then(() => {
     logger.info("connected to MongoDB");
@@ -28,6 +29,9 @@ app.use(
     ":method :url :status :res[content-length] - :response-time ms :body"
   )
 );
-app.use("/api/blogs", blogRouter)
+
+app.use("/api/users", usersRouter);
+app.use("/api/blogs", blogRouter);
+
 
 module.exports = app;

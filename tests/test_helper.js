@@ -1,4 +1,5 @@
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 const blogs = [
   {
@@ -51,7 +52,7 @@ const blogs = [
     url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
     likes: 2,
     __v: 0,
-  }
+  },
 ];
 
 const blogsInDb = async () => {
@@ -59,7 +60,13 @@ const blogsInDb = async () => {
   return blogs.map((blog) => blog.toJSON());
 };
 
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((u) => u.toJSON());
+};
+
 module.exports = {
   blogs,
-  blogsInDb
+  blogsInDb,
+  usersInDb,
 };

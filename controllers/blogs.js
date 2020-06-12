@@ -9,7 +9,7 @@ blogRouter.get("/", async (request, response) => {
 blogRouter.post("/", async (request, response) => {
   const blog = new Blog(request.body);
   if (typeof blog.title === "undefined" || typeof blog.url === "undefined") {
-    response.status(400).json(result);
+    response.status(400).end();
   }
   const savedBlog = await blog.save();
   response.status(201).json(savedBlog);
@@ -19,23 +19,6 @@ blogRouter.delete("/:id", async (request, response) => {
   await Blog.findByIdAndDelete(request.params.id);
   response.status(204).end();
 });
-
-/* blogRouter.put('/:id', (request, response, next) => {
-  const body = request.body
-
-  const blog = {
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
-  };
-
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
-    .then(updatedNote => {
-      response.json(updatedNote.toJSON())
-    })
-    .catch(error => next(error))
-}) */
 
 blogRouter.put("/:id", async (request, response) => {
   const body = request.body;
