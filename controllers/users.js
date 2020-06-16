@@ -3,7 +3,7 @@ const usersRouter = require("express").Router();
 const User = require("../models/user");
 
 usersRouter.get("/", async (request, response) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate("blogs");
   response.status(200).json(users.map((u) => u.toJSON()));
 });
 
@@ -25,7 +25,6 @@ usersRouter.post("/", async (request, response) => {
     response.status(201).json(savedUser);
   } else {
     response.status(400).end();
-    throw Error("ValidationError");
   }
 });
 
