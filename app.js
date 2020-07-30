@@ -41,10 +41,8 @@ app.use("/api/login", loginRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/blogs", blogRouter);
 
-console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "test") {
-  console.log("entrou");
   const testingRouter = require("./controllers/testing");
   app.use("/api/testing", testingRouter);
 }
